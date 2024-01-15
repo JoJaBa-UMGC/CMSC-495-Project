@@ -12,6 +12,7 @@ app = Flask(__name__)
 app.static_folder = 'static'
 app.secret_key = os.urandom(24)
 
+# Testing -Jordan Kozlowski
 
 @app.route('/', methods=['POST', 'GET'])
 def landing_page():
