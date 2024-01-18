@@ -47,17 +47,9 @@ def show_forum_report_page(days):
     else:
         appstore_reviews = []
 
-    df_reddit_posts = mightydoom_reddit.get_posts()
-
-    if len(df_reddit_posts) > 0:
-        reddit_posts = [df_reddit_posts.to_html(classes="data", header=True)]
-    else:
-        reddit_posts = []
-
     return render_template('forumreport.xhtml',
                            google_reviews=google_reviews,
-                           appstore_reviews=appstore_reviews,
-                           reddit_posts=reddit_posts)
+                           appstore_reviews=appstore_reviews)
 
 
 if __name__ == '__main__':
