@@ -1,10 +1,14 @@
 import requests
+from datetime import datetime
+from dateutil import parser
+import pandas
 
 
 def get_app_id(app_name):
-
-    key = "AIzaSyCH-_ALlgGE0iWbDNlO7MwMZOuyKYLOU8k"
-
+    # Pasha's key
+    # key = "AIzaSyCH-_ALlgGE0iWbDNlO7MwMZOuyKYLOU8k"
+    # Joel's key
+    key = "AIzaSyBxO_I_8zbjO-_El9fFGlRLdLJjQ5EdHbc"
     engine = "c5a5f09a33422445a"
 
     url = "https://www.googleapis.com/customsearch/v1?key=" + key + "&cx=" + engine + "&q=app store " + app_name
@@ -15,25 +19,52 @@ def get_app_id(app_name):
     return data['items'][0]['link'].split('/')[-1]
 
 
-def get_app_reviews(app_id):
+def check_date(review_date, days):
+    d = datetime.now() - parser.parse(review_date.split('T')[0])
+
+    if d.days >= int(days):
+        return True
+
+    return False
+
+
+def get_reviews(days):
+    app_id = get_app_id("mighty doom").split('id')[1]
+    reviews_dict = {"Username": [],
+                    "Date": [],
+                    "Review Text": [],
+                    "Score": [],
+                    "Version": []
+                    }
 
     url = 'https://itunes.apple.com/us/rss/customerreviews/id=' + app_id + '/sortBy=mostRecent/json'
-
     response = requests.get(url)
-    data = response.json()
 
-    return ('Customer: ' + data['feed']['entry'][0]['author']['name']['label'] +
-            ' says: ' + data['feed']['entry'][0]['content']['label'])
+    if response.ok:
+        data = response.json()
+
+        for review in data['feed']['entry']:
+            if check_date(review['updated']['label'], days):
+                reviews_dict['Username'].append(review['author']['name']['label'])
+
+                reviews_dict['Date'].append(review['updated']['label'].split('T')[0])
+
+                reviews_dict['Review Text'].append(review['content']['label'])
+
+                reviews_dict['Score'].append(review['im:rating']['label'])
+
+                reviews_dict['Version'].append(review['im:version']['label'])
+
+        return pandas.DataFrame(reviews_dict)
+        # return reviews_dict
+    else:
+        print("Failed to pull app reviews from Apple App Store.")
 
 
-def main():
-
-    app_name = "vain glory"
-
-    app_id = get_app_id(app_name).split('id')[1]
-
-    print(get_app_reviews(app_id))
-
-
-if __name__ == '__main__':
-    main()
+# def main():
+#
+#     print(get_reviews(30))
+#
+#
+# if __name__ == '__main__':
+#     main()

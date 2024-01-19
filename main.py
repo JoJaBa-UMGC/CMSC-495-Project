@@ -3,13 +3,13 @@ import os
 import pandas
 
 import mightydoom_googleplay
-import mightydoom_appstore
+import app_store_reviews
 
 from flask import Flask, render_template, request, redirect, url_for
 
 
 app = Flask(__name__)
-app.static_folder = 'static'
+app.static_folder = 'templates'
 app.secret_key = os.urandom(24)
 
 # Testing -Jordan Kozlowski
@@ -34,16 +34,15 @@ def forum_report_page():
 
 def show_forum_report_page(days):
     df_google_reviews = mightydoom_googleplay.get_reviews(days)
+    df_appsto_reviews = app_store_reviews.get_reviews(days)
 
     if len(df_google_reviews) > 0:
         google_reviews = [df_google_reviews.to_html(classes="data", header=True)]
     else:
         google_reviews = []
 
-    df_appstore_reviews = mightydoom_appstore.get_reviews(days)
-
-    if len(df_appstore_reviews) > 0:
-        appstore_reviews = [df_appstore_reviews.to_html(classes="data", header=True)]
+    if len(df_google_reviews) > 0:
+        appstore_reviews = [df_appsto_reviews.to_html(classes="data", header=True)]
     else:
         appstore_reviews = []
 
