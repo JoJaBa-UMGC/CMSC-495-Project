@@ -1,18 +1,15 @@
 import os
 
-import pandas
-
-import mightydoom_googleplay
+import play_store_reviews
 import app_store_reviews
+from find_app_id import App_Finder
 
-from flask import Flask, render_template, request, redirect, url_for
-
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 app.static_folder = 'templates'
 app.secret_key = os.urandom(24)
 
-# Testing -Jordan Kozlowski
 
 @app.route('/', methods=['POST', 'GET'])
 def landing_page():
@@ -33,8 +30,12 @@ def forum_report_page():
 
 
 def show_forum_report_page(days):
-    df_google_reviews = mightydoom_googleplay.get_reviews(days)
-    df_appsto_reviews = app_store_reviews.get_reviews(days)
+    app_search = App_Finder()
+    app_search.find_app("mighty doom")
+
+    df_google_reviews = play_store_reviews.get_reviews(days, app_search.google_id)
+
+    df_appsto_reviews = app_store_reviews.get_reviews(days, app_search.apple_id)
 
     if len(df_google_reviews) > 0:
         google_reviews = [df_google_reviews.to_html(classes="data", header=True)]

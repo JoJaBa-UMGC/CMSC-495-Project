@@ -1,8 +1,9 @@
-from google_play_scraper import Sort, reviews_all
+from google_play_scraper import Sort, reviews_all, reviews
 from datetime import datetime
 import pandas
 import numpy
 import pycountry
+import time
 
 
 def check_date(review, days):
@@ -13,7 +14,7 @@ def check_date(review, days):
     return False
 
 
-def get_reviews(days):
+def get_reviews(days, google_id):
     reviews_dict = {"Username": [],
                     "Date": [],
                     "Review Text": [],
@@ -23,7 +24,7 @@ def get_reviews(days):
                     }
 
     app_reviews = reviews_all(
-        'com.bethsoft.ubu',
+        app_id=google_id,
         sleep_milliseconds=0,  # defaults to 0
         lang='en',  # defaults to 'en'
         country='nz',  # defaults to 'us'
@@ -46,7 +47,7 @@ def get_reviews(days):
 
         reviews_dict['Replied'].append(review['replyContent'])
 
-    print(f"# of Google Play reviews: {len(reviews_dict)}")
+    # print(f"# of Google Play reviews: {len(reviews_dict)}")
 
     df_app = pandas.DataFrame(reviews_dict)
 

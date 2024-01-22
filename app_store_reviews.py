@@ -4,19 +4,21 @@ from dateutil import parser
 import pandas
 
 
-def get_app_id(app_name):
-    # Pasha's key
-    # key = "AIzaSyCH-_ALlgGE0iWbDNlO7MwMZOuyKYLOU8k"
-    # Joel's key
-    key = "AIzaSyBxO_I_8zbjO-_El9fFGlRLdLJjQ5EdHbc"
-    engine = "c5a5f09a33422445a"
-
-    url = "https://www.googleapis.com/customsearch/v1?key=" + key + "&cx=" + engine + "&q=app store " + app_name
-
-    response = requests.get(url)
-    data = response.json()
-
-    return data['items'][0]['link'].split('/')[-1]
+# def get_app_id(app_name):
+#     # Pasha's key
+#     # key = "AIzaSyCH-_ALlgGE0iWbDNlO7MwMZOuyKYLOU8k"
+#     # Joel's key
+#     # key = "AIzaSyBxO_I_8zbjO-_El9fFGlRLdLJjQ5EdHbc"
+#     # Jordan's key
+#     key = "AIzaSyDyC-G8JgUD_rRgJsvSIJflFqdCnTMXs9g"
+#     engine = "c5a5f09a33422445a"
+#
+#     url = "https://www.googleapis.com/customsearch/v1?key=" + key + "&cx=" + engine + "&q=app store " + app_name
+#
+#     response = requests.get(url)
+#     data = response.json()
+#
+#     return data['items'][0]['link'].split('/')[-1]
 
 
 def check_date(review_date, days):
@@ -28,8 +30,8 @@ def check_date(review_date, days):
     return False
 
 
-def get_reviews(days):
-    app_id = get_app_id("mighty doom").split('id')[1]
+def get_reviews(days, apple_id):
+    app_id = apple_id
     reviews_dict = {"Username": [],
                     "Date": [],
                     "Review Text": [],
