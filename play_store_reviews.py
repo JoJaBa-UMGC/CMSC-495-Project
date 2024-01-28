@@ -24,6 +24,7 @@ def get_reviews(days, google_id):
                     }
 
     app_reviews = reviews_all(
+        days=days,
         app_id=google_id,
         sleep_milliseconds=0,  # defaults to 0
         lang='en',  # defaults to 'en'

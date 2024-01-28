@@ -31,11 +31,8 @@ class App_Finder:
             if self.google_id != "" and self.apple_id != "":
                 break
 
-
     def set_apple_id(self, link):
         self.apple_id = link.split('/')[-1].split('id')[1]
 
-
     def set_google_id(self, link):
         self.google_id = link.split('/')[-1].split('id=')[1].split('&hl=')[0]
-
