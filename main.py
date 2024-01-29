@@ -37,7 +37,7 @@ def show_forum_report_page(app_name, search_period):
     days = {
         'month': 30,
         'quarter': 91,
-        'half_year': 182,
+        'half-year': 182,
         'year': 365,
         'whole-period': -1
     }[search_period]
