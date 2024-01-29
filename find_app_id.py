@@ -4,7 +4,7 @@ from dateutil import parser
 import pandas
 
 
-class App_Finder:
+class AppFinder:
     google_id = ""
     apple_id = ""
 
