@@ -1,5 +1,6 @@
-from google_play_scraper import Sort, reviews_all
+from google_play_scraper import Sort, reviews
 from datetime import datetime
+from time import sleep
 import pandas
 import numpy
 import pycountry
@@ -8,10 +9,7 @@ import time
 
 def check_date(review, days):
     d = datetime.now() - review['at']
-    if d.days >= int(days):
-        return True
-
-    return False
+    return d.days >= int(days)
 
 
 def get_reviews(days, google_id):
@@ -23,7 +21,7 @@ def get_reviews(days, google_id):
                     "Replied": []
                     }
 
-    app_reviews = reviews_all(
+    app_reviews = reviews_date(
         days=days,
         app_id=google_id,
         sleep_milliseconds=0,  # defaults to 0
@@ -53,3 +51,33 @@ def get_reviews(days, google_id):
     df_app = pandas.DataFrame(reviews_dict)
 
     return df_app
+
+
+def reviews_date(app_id: str, sleep_milliseconds: int = 0, days: int = 0, **kwargs) -> list:
+    kwargs.pop("count", None)
+    kwargs.pop("continuation_token", None)
+
+    continuation_token = None
+
+    result = []
+
+    while True:
+        _result, continuation_token = reviews(
+            app_id,
+            count=1000,
+            continuation_token=continuation_token,
+            **kwargs
+        )
+
+        result += _result
+
+        if continuation_token.token is None:
+            break
+
+        if sleep_milliseconds:
+            sleep(sleep_milliseconds / 1000)
+
+        if days > 0 and check_date(result[-1], days):
+            break
+
+    return result
