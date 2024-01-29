@@ -1,4 +1,4 @@
-from google_play_scraper import Sort, reviews
+from google_play_scraper import Sort, reviews, reviews_all
 from datetime import datetime
 from time import sleep
 import pandas
@@ -8,6 +8,8 @@ import time
 
 
 def check_date(review, days):
+    if days <= 0:
+        return False
     d = datetime.now() - review['at']
     return d.days >= int(days)
 
@@ -21,6 +23,7 @@ def get_reviews(days, google_id):
                     "Replied": []
                     }
 
+    start_time = time.time()
     app_reviews = reviews_date(
         days=days,
         app_id=google_id,
@@ -29,6 +32,8 @@ def get_reviews(days, google_id):
         country='nz',  # defaults to 'us'
         sort=Sort.NEWEST,  # defaults to Sort.MOST_RELEVANT
     )
+    print("Retrieved google reviews in {} seconds".format(time.time() - start_time))
+    print()
 
     app_reviews = [review for review in app_reviews if not check_date(review, days)]
 
@@ -45,8 +50,6 @@ def get_reviews(days, google_id):
         reviews_dict['Version'].append(review['reviewCreatedVersion'])
 
         reviews_dict['Replied'].append(review['replyContent'])
-
-    # print(f"# of Google Play reviews: {len(reviews_dict)}")
 
     df_app = pandas.DataFrame(reviews_dict)
 
@@ -77,7 +80,7 @@ def reviews_date(app_id: str, sleep_milliseconds: int = 0, days: int = 0, **kwar
         if sleep_milliseconds:
             sleep(sleep_milliseconds / 1000)
 
-        if days > 0 and check_date(result[-1], days):
+        if check_date(result[-1], days):
             break
 
     return result

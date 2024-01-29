@@ -1,4 +1,5 @@
 import os
+import time
 
 import play_store_reviews
 import app_store_reviews

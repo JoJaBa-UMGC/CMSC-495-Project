@@ -1,3 +1,5 @@
+import time
+
 import requests
 from datetime import datetime
 from dateutil import parser
@@ -42,7 +44,12 @@ def get_reviews(days, app_id):
 
     since_time = datetime.utcnow().astimezone(pytz.utc) + timedelta(days=-days)
 
-    reviews = app_store_reader.fetch_reviews(after=since_time)
+    start_time = time.time()
+    if days > 0:
+        reviews = app_store_reader.fetch_reviews(after=since_time)
+    else:
+        reviews = app_store_reader.fetch_reviews()
+    print("Retrieved apple reviews in {} seconds".format(time.time() - start_time))
 
     reviews_dict = {"Username": [],
                     "Date": [],
