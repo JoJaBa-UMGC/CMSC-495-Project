@@ -2,21 +2,20 @@ import os
 
 import play_store_reviews
 import app_store_reviews
-from find_app_id import App_Finder
+from find_app_id import AppFinder
 
 from flask import Flask, render_template, request
 
-app = Flask(__name__)
-app.static_folder = 'templates'
+app = Flask(__name__, template_folder='templates', static_folder='static')
 app.secret_key = os.urandom(24)
 
 
 @app.route('/', methods=['POST', 'GET'])
 def landing_page():
     if request.method == 'POST':
-        days = request.form.get('days')
-        print(days)
-        return show_forum_report_page(days)
+        app_name = request.form.get('app_name')
+        search_period = request.form.get('search_period')
+        return show_forum_report_page(app_name, search_period)
 
     return show_landing_page()
 
@@ -30,9 +29,17 @@ def forum_report_page():
     return show_forum_report_page(1)
 
 
-def show_forum_report_page(days):
-    app_search = App_Finder()
-    app_search.find_app("mighty doom")
+def show_forum_report_page(app_name, search_period):
+    app_search = AppFinder()
+    app_search.find_app(app_name)
+
+    days = {
+        'month': 30,
+        'quarter': 91,
+        'half_year': 182,
+        'year': 365,
+        'whole-period': -1
+    }[search_period]
 
     df_google_reviews = play_store_reviews.get_reviews(days, app_search.google_id)
 
