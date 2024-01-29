@@ -15,13 +15,14 @@ app.secret_key = os.urandom(24)
 def landing_page():
     if request.method == 'POST':
         days = request.form.get('days')
+        print(days)
         return show_forum_report_page(days)
 
     return show_landing_page()
 
 
 def show_landing_page():
-    return render_template('landing.xhtml')
+    return render_template('landing.html')
 
 
 @app.route('/forumreport')
@@ -53,4 +54,4 @@ def show_forum_report_page(days):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
