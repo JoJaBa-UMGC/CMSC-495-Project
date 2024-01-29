@@ -1,18 +1,56 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>Forum Report</title>
-	</head>
-	<body>
-		<form method="POST">
-			<p>How many days would you like to display?</p><br>
-			<div>
-				<label for="days"> Days: </label>
-				<input type="text" name="days"><br>
-			</div>
-			<div>
-				<input type="submit" class="submit" value="Enter">
-			</div>
-		</form>
-	</body>
+<head>
+    <title>Landing Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Reviews App</h1>
+        <form method="post">
+            <div class="form-group">
+                <label for="app-name">Enter App Name:</label>
+                <input type="text" id="app-name" name="app_name" required>
+            </div>
+			<div class="form-group">
+                <label for="search-period">Select Search Period:</label>
+                <select id="search-period" name="search_period">
+                    <option value="month">Month</option>
+                    <option value="quarter">Quarter</option>
+                    <option value="half-year">Half a Year</option>
+                    <option value="year">Year</option>
+                    <option value="whole-period">Whole Period</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="sorting-options">Choose Sorting Option:</label>
+                <select id="sorting-options" name="sorting_option">
+                    <option value="date">Date</option>
+                    <option value="rating">Rating</option>
+                    <option value="text">Text</option>
+                    <option value="no-text">No Text</option>
+                    <option value="positive">Positive</option>
+                    <option value="negative">Negative</option>
+                    <option value="neutral">Neutral</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Data Representation:</label>
+                <div>
+                    <input type="radio" id="graph" name="data_representation" value="graph">
+                    <label for="graph">Graph</label>
+                </div>
+                <div>
+                    <input type="radio" id="chart" name="data_representation" value="chart">
+                    <label for="chart">Chart</label>
+                </div>
+                <div>
+                    <input type="radio" id="table" name="data_representation" value="table">
+                    <label for="table">Table</label>
+                </div>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
 </html>
