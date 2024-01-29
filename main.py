@@ -50,7 +50,7 @@ def show_forum_report_page(app_name, search_period):
     else:
         google_reviews = []
 
-    if len(df_google_reviews) > 0:
+    if len(df_appsto_reviews) > 0:
         appstore_reviews = [df_appsto_reviews.to_html(classes="data", header=True)]
     else:
         appstore_reviews = []

@@ -6,7 +6,6 @@ import pprint
 from datetime import datetime, timedelta
 
 import pytz as pytz
-from find_app_id import AppFinder
 
 from app_store.app_store_reviews_reader import AppStoreReviewsReader
 
@@ -54,7 +53,7 @@ def get_reviews(days, app_id):
 
     for review in reviews:
 
-        reviews_dict['Title'].append(review.title)
+        #reviews_dict['Title'].append(review.title)
 
         reviews_dict['Username'].append(review.author_name)
 
@@ -66,7 +65,9 @@ def get_reviews(days, app_id):
 
         reviews_dict['Version'].append(review.version)
 
-    return reviews
+    df_app = pandas.DataFrame(reviews_dict)
+
+    return df_app
 
     # app_id = apple_id
     # reviews_dict = {"Username": [],
