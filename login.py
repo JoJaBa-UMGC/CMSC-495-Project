@@ -4,7 +4,7 @@ import qrcode
 import io
 from base64 import b64encode
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates', static_folder='static')
 app.secret_key = pyotp.random_base32()
 
 
