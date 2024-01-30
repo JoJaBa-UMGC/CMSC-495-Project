@@ -1,4 +1,4 @@
-from google_play_scraper import Sort, reviews, reviews_all
+from google_play_scraper import Sort, reviews
 from datetime import datetime
 from time import sleep
 import pandas
