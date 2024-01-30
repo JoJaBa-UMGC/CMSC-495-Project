@@ -12,6 +12,7 @@ import pytz as pytz
 from app_store.app_store_reviews_reader import AppStoreReviewsReader
 
 
+
 # def get_app_id(app_name):
 #     # Pasha's key
 #     # key = "AIzaSyCH-_ALlgGE0iWbDNlO7MwMZOuyKYLOU8k"
@@ -38,18 +39,43 @@ from app_store.app_store_reviews_reader import AppStoreReviewsReader
 #     return False
 
 
+def get_page(app_id, page_num, reviews_dict):
+
+    url = 'https://itunes.apple.com/us/rss/customerreviews/page=' + str(page_num) + '/id=' + app_id + '/sortBy=mostRecent/json'
+    response = requests.get(url)
+
+    if response.ok:
+
+        data = response.json()
+
+        for review in data['feed']['entry']:
+            # if check_date(review['updated']['label'], days):
+            reviews_dict['Username'].append(review['author']['name']['label'])
+
+            reviews_dict['Date'].append(review['updated']['label'].split('T')[0])
+
+            reviews_dict['Review Text'].append(review['content']['label'])
+
+            reviews_dict['Score'].append(review['im:rating']['label'])
+
+            reviews_dict['Version'].append(review['im:version']['label'])
+    else:
+        print("Failed to pull app reviews from Apple App Store.")
+
+
 def get_reviews(days, app_id):
 
-    app_store_reader = AppStoreReviewsReader(app_id=app_id, country='us')
-
-    since_time = datetime.utcnow().astimezone(pytz.utc) + timedelta(days=-days)
-
+    # app_store_reader = AppStoreReviewsReader(app_id=app_id, country='us')
+    #
     start_time = time.time()
-    if days > 0:
-        reviews = app_store_reader.fetch_reviews(after=since_time)
-    else:
-        reviews = app_store_reader.fetch_reviews()
-    print("Retrieved apple reviews in {} seconds".format(time.time() - start_time))
+    #
+    # if days > 0:
+    #     reviews = app_store_reader.fetch_reviews(after=datetime.now() - timedelta(days=days))
+    # else:
+    #     reviews = app_store_reader.fetch_reviews()
+    #
+
+    page_num = 1
 
     reviews_dict = {"Username": [],
                     "Date": [],
@@ -58,19 +84,27 @@ def get_reviews(days, app_id):
                     "Version": []
                     }
 
-    for review in reviews:
+    get_page(app_id, page_num, reviews_dict)
 
-        #reviews_dict['Title'].append(review.title)
+    while reviews_dict['Date'][-1] > (datetime.now() - timedelta(days=days)).strftime(
+            '%Y-%m-%d') and page_num < 11:
+        page_num += 1
+        get_page(app_id, page_num, reviews_dict)
 
-        reviews_dict['Username'].append(review.author_name)
+    print("Retrieved apple reviews in {} seconds".format(time.time() - start_time))
 
-        reviews_dict['Date'].append(review.date)
+    return pandas.DataFrame(reviews_dict)
 
-        reviews_dict['Review Text'].append(review.content)
-
-        reviews_dict['Score'].append(review.rating)
-
-        reviews_dict['Version'].append(review.version)
+    # for review in reviews:
+    #     reviews_dict['Username'].append(review.author_name)
+    #
+    #     reviews_dict['Date'].append(review.date)
+    #
+    #     reviews_dict['Review Text'].append(review.content)
+    #
+    #     reviews_dict['Score'].append(review.rating)
+    #
+    #     reviews_dict['Version'].append(review.version)
 
     df_app = pandas.DataFrame(reviews_dict)
 
@@ -84,29 +118,7 @@ def get_reviews(days, app_id):
     #                 "Version": []
     #                 }
     #
-    # url = 'https://itunes.apple.com/us/rss/customerreviews/id=' + app_id + '/sortBy=mostRecent/json'
-    # response = requests.get(url)
     #
-    # if response.ok:
-    #     data = response.json()
-    #
-    #     for review in data['feed']['entry']:
-    #         if check_date(review['updated']['label'], days):
-    #             reviews_dict['Username'].append(review['author']['name']['label'])
-    #
-    #             reviews_dict['Date'].append(review['updated']['label'].split('T')[0])
-    #
-    #             reviews_dict['Review Text'].append(review['content']['label'])
-    #
-    #             reviews_dict['Score'].append(review['im:rating']['label'])
-    #
-    #             reviews_dict['Version'].append(review['im:version']['label'])
-    #
-    #     return pandas.DataFrame(reviews_dict)
-    #     # return reviews_dict
-    # else:
-    #     print("Failed to pull app reviews from Apple App Store.")
-
 
 # def main():
 #     app_search = AppFinder()
