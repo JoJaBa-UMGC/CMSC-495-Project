@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Graph Test</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Graph Test</h1>
+        <div id='google_graph' class='google_graph'></div>
+        <div id='apple_graph' class='apple_graph'></div>
+    </div>
+</body>
+
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<script type='text/javascript'>
+  var google_graph = {{google_graph_json | safe}};
+  var apple_graph = {{apple_graph_json | safe}};
+  Plotly.plot('google_graph',google_graph,{});
+  Plotly.plot('apple_graph',apple_graph,{});
+</script>
+</html>
