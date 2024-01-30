@@ -10,11 +10,11 @@ class AppFinder:
 
     def find_app(self, app_name):
         # Pasha's key
-        # key = "AIzaSyCH-_ALlgGE0iWbDNlO7MwMZOuyKYLOU8k"
+        key = "AIzaSyCH-_ALlgGE0iWbDNlO7MwMZOuyKYLOU8k"
         # Joel's key
         # key = "AIzaSyBxO_I_8zbjO-_El9fFGlRLdLJjQ5EdHbc"
         # Jordan's key
-        key = "AIzaSyDyC-G8JgUD_rRgJsvSIJflFqdCnTMXs9g"
+        # key = "AIzaSyDyC-G8JgUD_rRgJsvSIJflFqdCnTMXs9g"
         engine = "c5a5f09a33422445a"
 
         url = "https://www.googleapis.com/customsearch/v1?key=" + key + "&cx=" + engine + "&q=app store " + app_name
