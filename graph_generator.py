@@ -31,9 +31,10 @@ def graph_test():
 
 def generate_graph(reviews_dataframe, graph_title):
     scores_dataframe = (reviews_dataframe['Score']
-                        .value_counts(sort=True)
+                        .value_counts()
                         .reset_index(name='counts')
-                        .rename(columns={'Score': 'Review Score', 'counts': 'Score Total'}))
+                        .rename(columns={'index': 'Review Score', 'counts': 'Score Total'})
+                        .sort_values(by=['Review Score'], ascending=False))
     print(scores_dataframe)
     graph = px.bar(scores_dataframe, x='Review Score', y='Score Total', barmode='group', title=graph_title)
     graph_json = json.dumps(graph, cls=putil.PlotlyJSONEncoder)
