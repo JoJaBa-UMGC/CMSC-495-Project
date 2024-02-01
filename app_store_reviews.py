@@ -12,7 +12,6 @@ import pytz as pytz
 from app_store.app_store_reviews_reader import AppStoreReviewsReader
 
 
-
 # def get_app_id(app_name):
 #     # Pasha's key
 #     # key = "AIzaSyCH-_ALlgGE0iWbDNlO7MwMZOuyKYLOU8k"
