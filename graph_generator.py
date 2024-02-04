@@ -17,16 +17,16 @@ DAYS = 30
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
 
-@app.route('/', methods=['GET'])
-def graph_test():
-    app_ids = find_app_id.AppFinder()
-    app_ids.find_app(APP_NAME)
-    google_df = play_store_reviews.get_reviews(DAYS, app_ids.google_id)
-    apple_df = app_store_reviews.get_reviews(DAYS, app_ids.apple_id)
-    google_graph_json = generate_graph(google_df, 'Google Review Scores')
-    apple_graph_json = generate_graph(apple_df, 'Apple Review Scores')
-    return render_template('graph.html',
-                           google_graph_json=google_graph_json, apple_graph_json=apple_graph_json)
+# @app.route('/', methods=['GET'])
+# def graph_test():
+#     app_ids = find_app_id.AppFinder()
+#     app_ids.find_app(APP_NAME)
+#     google_df = play_store_reviews.get_reviews(DAYS, app_ids.google_id)
+#     apple_df = app_store_reviews.get_reviews(DAYS, app_ids.apple_id)
+#     google_graph_json = generate_graph(google_df, 'Google Review Scores')
+#     apple_graph_json = generate_graph(apple_df, 'Apple Review Scores')
+#     return render_template('graph.html',
+#                            google_graph_json=google_graph_json, apple_graph_json=apple_graph_json)
 
 
 def generate_graph(reviews_dataframe, graph_title):
@@ -41,5 +41,5 @@ def generate_graph(reviews_dataframe, graph_title):
     return graph_json
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)

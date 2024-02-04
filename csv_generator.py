@@ -29,14 +29,14 @@ def csv_test():
 def google_csv():
     global google_id
     return generate_csv_zip(play_store_reviews.get_reviews(DAYS, google_id), "Google Reviews")
-    return render_template('csv_test.html')
+    # return render_template('csv_test.html')
 
 
 @app.route("/apple")
 def apple_csv():
     global apple_id
     return generate_csv_zip(app_store_reviews.get_reviews(DAYS, apple_id), "Apple Reviews")
-    return render_template('csv_test.html')
+    # return render_template('csv_test.html')
 
 
 def generate_csv_zip(reviews_dataframe: dataframe, file_name: str):
