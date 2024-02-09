@@ -1,5 +1,4 @@
 import os
-import time
 
 import play_store_reviews
 import app_store_reviews
@@ -29,11 +28,6 @@ def landing_page():
 
 def show_landing_page():
     return render_template('landing.html')
-
-
-# @app.route('/forumreport')
-# def forum_report_page():
-#     return show_forum_report_page(1)
 
 
 def show_forum_report_page(app_name, search_period):

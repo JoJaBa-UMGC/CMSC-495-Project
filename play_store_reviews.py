@@ -2,8 +2,6 @@ from google_play_scraper import Sort, reviews
 from datetime import datetime
 from time import sleep
 import pandas
-import numpy
-import pycountry
 import time
 
 

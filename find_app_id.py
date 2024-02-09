@@ -1,7 +1,4 @@
 import requests
-from datetime import datetime
-from dateutil import parser
-import pandas
 
 
 class AppFinder:
