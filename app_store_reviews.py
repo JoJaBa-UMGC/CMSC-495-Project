@@ -1,58 +1,59 @@
-import time
-
 import requests
-import pandas
+import pandas as pd
 from datetime import datetime, timedelta
 
 
-def get_page(app_id, page_num, reviews_dict):
-
-    url = 'https://itunes.apple.com/us/rss/customerreviews/page=' + str(page_num) + '/id=' + app_id + '/sortBy=mostRecent/json'
-    response = requests.get(url)
-
-    if response.ok:
-
-        data = response.json()
-
-        for review in data['feed']['entry']:
-            # if check_date(review['updated']['label'], days):
-            reviews_dict['Username'].append(review['author']['name']['label'])
-
-            reviews_dict['Date'].append(review['updated']['label'].split('T')[0])
-
-            reviews_dict['Review Text'].append(review['content']['label'])
-
-            reviews_dict['Score'].append(review['im:rating']['label'])
-
-            reviews_dict['Version'].append(review['im:version']['label'])
-    else:
-        print("Failed to pull app reviews from Apple App Store.")
-
-
 def get_reviews(days, app_id):
+    """
+    Fetches reviews for a given app from the Apple App Store.
 
-    start_time = time.time()
+    Parameters:
+    days (int): The number of days from today for which reviews are to be fetched.
+    App_id (str): The id of the app for which reviews are to be fetched.
 
+    Returns:
+    DataFrame: A pandas DataFrame containing the fetched reviews. The DataFrame has the following columns:
+               'Username', 'Date', 'Review Text', 'Score', 'Version'
+    """
+
+    # Initialize a dictionary to store the reviews
+    reviews_dict = {"Username": [], "Date": [], "Review Text": [], "Score": [], "Version": []}
+
+    # Initialize the page number
     page_num = 1
 
-    reviews_dict = {"Username": [],
-                    "Date": [],
-                    "Review Text": [],
-                    "Score": [],
-                    "Version": []
-                    }
+    # Loop until break condition is met
+    while True:
+        # Construct the URL for the API request
+        url = f'https://itunes.apple.com/us/rss/customerreviews/page={page_num}/id={app_id}/sortBy=mostRecent/json'
 
-    get_page(app_id, page_num, reviews_dict)
+        # Send a GET request to the API
+        response = requests.get(url)
 
-    while reviews_dict['Date'][-1] > (datetime.now() - timedelta(days=days)).strftime(
-            '%Y-%m-%d') and page_num < 11:
+        # If the response is not OK, print an error message and break the loop
+        if not response.ok:
+            print("Failed to pull app reviews from Apple App Store.")
+            break
+
+        # Parse the JSON response
+        data = response.json()
+
+        # Loop through each review in the response
+        for review in data['feed']['entry']:
+            # Append the username, date, review text, score, and version to the reviews dictionary
+            reviews_dict['Username'].append(review['author']['name']['label'])
+            reviews_dict['Date'].append(review['updated']['label'].split('T')[0])
+            reviews_dict['Review Text'].append(review['content']['label'])
+            reviews_dict['Score'].append(review['im:rating']['label'])
+            reviews_dict['Version'].append(review['im:version']['label'])
+
+        # If the date of the last review is older than the specified number of days,
+        # or if the page number is 10 or more, break the loop
+        if reviews_dict['Date'][-1] <= (datetime.now() - timedelta(days=days)).strftime('%Y-%m-%d') or page_num >= 10:
+            break
+
+        # Increment the page number
         page_num += 1
-        get_page(app_id, page_num, reviews_dict)
 
-    print("Retrieved apple reviews in {} seconds".format(time.time() - start_time))
-
-    return pandas.DataFrame(reviews_dict)
-
-    df_app = pandas.DataFrame(reviews_dict)
-
-    return df_app
+    # Return the reviews as a pandas DataFrame
+    return pd.DataFrame(reviews_dict)
