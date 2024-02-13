@@ -21,21 +21,26 @@
         document.getElementById(tabName).style.display = "block";
         element.currentTarget.className += " active";
     }
+
+    // Function to open the 'Table' tab by default
+    function openDefaultTab() {
+        document.getElementById('defaultOpen').click();
+    }
 </script>
 <head>
     <title>Review Page</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='tabs.css') }}">
 </head>
-<body>
+<body onload="openDefaultTab()">
     <div class="tab">
-        <button class="tablinks" onclick="openTab(this, 'Table')">Table</button>
-        <button class="tablinks" onclick="openTab(this, 'Graphs')">Graphs</button>
-        <button class="tablinks" onclick="openTab(this, 'Save')">Save</button>
+        <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'Table')">Table</button>
+        <button class="tablinks" onclick="openTab(event, 'Graphs')">Graphs</button>
+        <button class="tablinks" onclick="openTab(event, 'Save')">Save</button>
     </div>
 
     <div id="Table" class="tabcontent">
         <h3>Table</h3>
-        {% include 'forumreport.xhtml' %}
+        {% include 'forumreport.html' %}
     </div>
 
     <div id="Graphs" class="tabcontent">

@@ -1,10 +1,8 @@
 Flask~=2.2.3
 requests~=2.31.0
 pandas~=1.5.3
-python-dateutil~=2.8.2
-pytz~=2022.7.1
-praw~=7.7.0
 pyotp~=2.9.0
 qrcode~=7.4.2
 plotly~=5.18.0
-google-play-scraper~=1.2.6
+django-qrcode~=0.3
+python-dotenv~=1.0.1

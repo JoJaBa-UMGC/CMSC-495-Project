@@ -16,10 +16,8 @@
                 <label for="search-period">Select Search Period:</label>
                 <select id="search-period" name="search_period">
                     <option value="month">Month</option>
+                    <option value="two-months">Two Months</option>
                     <option value="quarter">Quarter</option>
-                    <option value="half-year">Half a Year</option>
-                    <option value="year">Year</option>
-                    <option value="whole-period">Whole Period</option>
                 </select>
             </div>
             <div class="form-group">
@@ -33,21 +31,6 @@
                     <option value="negative">Negative</option>
                     <option value="neutral">Neutral</option>
                 </select>
-            </div>
-            <div class="form-group">
-                <label>Data Representation:</label>
-                <div>
-                    <input type="radio" id="graph" name="data_representation" value="graph">
-                    <label for="graph">Graph</label>
-                </div>
-                <div>
-                    <input type="radio" id="chart" name="data_representation" value="chart">
-                    <label for="chart">Chart</label>
-                </div>
-                <div>
-                    <input type="radio" id="table" name="data_representation" value="table">
-                    <label for="table">Table</label>
-                </div>
             </div>
             <button type="submit">Submit</button>
         </form>
