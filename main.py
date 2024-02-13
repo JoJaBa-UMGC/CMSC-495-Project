@@ -1,5 +1,8 @@
 import os
+
+import pandas as pd
 from flask import Flask, render_template, request, session
+
 import app_store_reviews
 import play_store_reviews
 import graph_generator
@@ -8,6 +11,7 @@ from find_app_id import AppFinder
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 app.secret_key = os.urandom(24)
+app.config['SESSION_TYPE'] = 'filesystem'
 
 
 def get_reviews_for_platform(days, platform):
@@ -44,6 +48,9 @@ def show_forum_report_page(app_name, search_period):
 
     app_search = AppFinder()
     app_search.find_app(app_name)
+
+    session['google_id'] = app_search.google_id
+    session['apple_id'] = app_search.apple_id
 
     google_reviews = get_reviews_for_platform(days, 'Google')
     appstore_reviews = get_reviews_for_platform(days, 'Apple')
