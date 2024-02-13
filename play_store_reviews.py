@@ -17,8 +17,7 @@ def get_reviews(days, google_id):
                     "Date": [],
                     "Review Text": [],
                     "Score": [],
-                    "Version": [],
-                    "Replied": []
+                    "Version": []
                     }
 
     start_time = time.time()
@@ -36,18 +35,11 @@ def get_reviews(days, google_id):
     app_reviews = [review for review in app_reviews if not check_date(review, days)]
 
     for review in app_reviews:
-
         reviews_dict['Username'].append(review['userName'])
-
         reviews_dict['Date'].append(review['at'])
-
         reviews_dict['Review Text'].append(review['content'])
-
         reviews_dict['Score'].append(review['score'])
-
         reviews_dict['Version'].append(review['reviewCreatedVersion'])
-
-        reviews_dict['Replied'].append(review['replyContent'])
 
     df_app = pandas.DataFrame(reviews_dict)
 

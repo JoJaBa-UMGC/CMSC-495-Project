@@ -25,7 +25,8 @@ body {
 .login-btn:hover {
     background-color: #0056b3;
 }
-.container {
+
+.landing-container {
     width: 50%;
     margin: 0 auto;
     background: rgba(255, 255, 255, 0.9);
@@ -87,3 +88,83 @@ th {
     background-color: rgba(255, 255, 255, 0.8);
     color: coral;
 }
+
+.graph-container {
+    width: 90%;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+
+/* Style for tabs */
+ul.tabs {
+    list-style-type: none;
+    overflow: hidden;
+    position: sticky;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+ul.tabs li {
+    float: left;
+}
+
+ul.tabs li a {
+    background-color: #eee;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    color: black;
+}
+
+ul.tabs li a:hover {
+    background-color: #ddd;
+}
+
+ul.tabs li a.active {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Style for tab content */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Style for fixing table header */
+.table-fixed-header thead th {
+    position: sticky;
+    z-index: 1;
+    background-color: #f1f1f1;
+}
+
+.table-container {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    max-height: 80vh;
+    width: 100%;
+    overflow: auto;
+}
+
+.table-container .tableFixHead table.dataframe.data {
+    width: 90%;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+

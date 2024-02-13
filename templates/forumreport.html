@@ -2,74 +2,65 @@
 <html lang="en">
 <head>
     <title>Forum Report</title>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-    <script>
-        $(function () {
-            $("#tabs").tabs();
-        });
-    </script>
-    <style>
-        .tableFixHead {
-            overflow: auto;
-            height: 85vh;
-        }
-
-        .tableFixHead thead th {
-            position: sticky;
-            top: 0;
-            z-index: 1;
-        }
-
-        table {
-            border-collapse: collapse;
-            max-width: 100%;
-        }
-
-        tr:nth-child(odd) {
-            background-color: #eee;
-        }
-
-        th {
-            background-color: #555;
-            color: #fff;
-        }
-
-        th, td {
-            text-align: left;
-            padding: 0.5em 1em;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div id="tabs" style="height: 95vh;">
-    <ul>
-        <li><a href="#tabs-GooglePlay">Google Play</a></li>
-        <li><a href="#tabs-Appstore">Appstore</a></li>
+<div>
+    <ul class="tabs">
+        <li><a href="#" class="tab-link" data-tab="tabs-GooglePlay">Google Play</a></li>
+        <li><a href="#" class="tab-link" data-tab="tabs-Appstore">Appstore</a></li>
     </ul>
-    <div id="tabs-GooglePlay">
-        {% if google_reviews is defined and google_reviews|length > 0 %}
-        <div class="tableFixHead">
-            {% for review in google_reviews %}
-            {{ review|safe }}
-            {% endfor %}
+    <div class="table-container">
+        <div id="tabs-GooglePlay" class="tab-content">
+            {% if google_reviews is defined and google_reviews|length > 0 %}
+            <div class="table-fixed-header">
+                {% for review in google_reviews %}
+                {{ review|safe }}
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>There were no reviews in Play Store for the given period</p>
+            {% endif %}
         </div>
-        {% else %}
-        <p>There were no reviews in Play Store for the given period</p>
-        {% endif %}
-    </div>
-    <div id="tabs-Appstore">
-        {% if appstore_reviews is defined and appstore_reviews|length > 0 %}
-        <div class="tableFixHead">
-            {% for review in appstore_reviews %}
-            {{ review|safe }}
-            {% endfor %}
+        <div id="tabs-Appstore" class="tab-content">
+            {% if appstore_reviews is defined and appstore_reviews|length > 0 %}
+            <div class="table-fixed-header">
+                {% for review in appstore_reviews %}
+                {{ review|safe }}
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>There were no reviews in Appstore for the given period</p>
+            {% endif %}
         </div>
-        {% else %}
-        <p>There were no reviews in Appstore for the given period</p>
-        {% endif %}
     </div>
 </div>
+
+<script>
+    // JavaScript for handling tab switching
+    document.addEventListener("DOMContentLoaded", function() {
+        const tabLinks = document.querySelectorAll('.tab-link');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabLinks.forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const tabId = this.getAttribute('data-tab');
+
+                tabContents.forEach(function(tabContent) {
+                    tabContent.classList.remove('active');
+                });
+
+                document.getElementById(tabId).classList.add('active');
+
+                tabLinks.forEach(function(link) {
+                    link.classList.remove('active');
+                });
+
+                this.classList.add('active');
+            });
+        });
+    });
+</script>
 </body>
 </html>
