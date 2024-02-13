@@ -37,7 +37,8 @@ class AppFinder:
 
         self.google_id = ""
         self.apple_id = ""
-        self.google_search_api_key = os.getenv('GOOGLE_SEARCH_API_KEY_PASHA')
+        self.google_search_api_key = os.getenv('GOOGLE_SEARCH_API_KEY')
+        print(self.google_search_api_key)
         self.engine = "c5a5f09a33422445a"
 
     def find_app(self, app_name):
