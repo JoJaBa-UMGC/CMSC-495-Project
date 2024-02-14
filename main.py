@@ -1,9 +1,9 @@
 import os
 
-import pandas as pd
 from flask import Flask, render_template, request, session
 
 import app_store_reviews
+import filtering
 import play_store_reviews
 import graph_generator
 import csv_generator
@@ -12,6 +12,8 @@ from find_app_id import AppFinder
 app = Flask(__name__, template_folder='templates', static_folder='static')
 app.secret_key = os.urandom(24)
 app.config['SESSION_TYPE'] = 'filesystem'
+
+search_periods = {'month': 30, 'two-months': 60, 'quarter': 91}
 
 
 def get_reviews_for_platform(days, platform):
@@ -22,6 +24,8 @@ def get_reviews_for_platform(days, platform):
         df_reviews = app_store_reviews.get_reviews(days, session.get('apple_id'))
 
     graph = graph_generator.generate_graph(df_reviews, platform + " Reviews Scores")
+
+    df_reviews = filtering.sort_reviews(df_reviews, session.get('sorting_option'))
 
     return df_reviews, graph
 
@@ -37,13 +41,13 @@ def landing_page():
     if request.method == 'POST':
         app_name = request.form.get('app_name')
         search_period = request.form.get('search_period', 'month')
-        return show_forum_report_page(app_name, search_period)
+        sorting_option = request.form.get('sorting_option', 'score')
+        return show_forum_report_page(app_name, search_period, sorting_option)
     return render_template('landing.html')
 
 
-def show_forum_report_page(app_name, search_period):
+def show_forum_report_page(app_name, search_period, sorting_option):
     global google_reviews, appstore_reviews
-    search_periods = {'month': 30, 'two-months': 60, 'quarter': 91}
     days = search_periods.get(search_period, 30)
 
     app_search = AppFinder()
@@ -51,6 +55,7 @@ def show_forum_report_page(app_name, search_period):
 
     session['google_id'] = app_search.google_id
     session['apple_id'] = app_search.apple_id
+    session['sorting_option'] = sorting_option
 
     google_reviews = get_reviews_for_platform(days, 'Google')
     appstore_reviews = get_reviews_for_platform(days, 'Apple')
