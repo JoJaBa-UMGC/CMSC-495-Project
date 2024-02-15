@@ -61,7 +61,7 @@ def show_forum_report_page(app_name, search_period, sorting_option):
     google_reviews = get_reviews_for_platform(days, 'Google')
     appstore_reviews = get_reviews_for_platform(days, 'Apple')
 
-    return render_template('review_display.html',
+    return render_template('search_results.html',
                            google_reviews=reviews_to_html(google_reviews[0]),
                            appstore_reviews=reviews_to_html(appstore_reviews[0]),
                            google_graph_json=google_reviews[1],

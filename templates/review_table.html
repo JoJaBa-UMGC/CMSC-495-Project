@@ -1,0 +1,31 @@
+
+<div>
+    <div class="tab">
+        <button class="tab-link-nested" id="default-open-nested" data-tab="tabs-GooglePlay">Google Play</button>
+        <button class="tab-link-nested" data-tab="tabs-Appstore">Appstore</button>
+    </div>
+    <div class="table-container">
+        <div id="tabs-GooglePlay" class="tab-content-nested">
+            {% if google_reviews is not none and google_reviews|length > 0 %}
+            <div class="table-fixed-header">
+                {% for review in google_reviews %}
+                {{ review|safe }}
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>There were no reviews in Play Store for the given period</p>
+            {% endif %}
+        </div>
+        <div id="tabs-Appstore" class="tab-content-nested">
+            {% if appstore_reviews is not none and appstore_reviews|length > 0 %}
+            <div class="table-fixed-header">
+                {% for review in appstore_reviews %}
+                {{ review|safe }}
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>There were no reviews in Appstore for the given period</p>
+            {% endif %}
+        </div>
+    </div>
+</div>

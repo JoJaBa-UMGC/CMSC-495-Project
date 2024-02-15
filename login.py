@@ -105,7 +105,7 @@ def show_review_report(app_name, search_period):
     else:
         appstore_reviews = []
 
-    return render_template('forumreport.html',
+    return render_template('review_table.html',
                            google_reviews=google_reviews,
                            appstore_reviews=appstore_reviews)
 
