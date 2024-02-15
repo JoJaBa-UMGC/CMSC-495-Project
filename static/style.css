@@ -2,6 +2,11 @@ body {
     background-color: coral;
     font-family: Arial, sans-serif;
 }
+.error {
+    color: red;
+    font-size: 40px;
+    text-align: center;
+}
 .login-container {
     width: 300px;
     margin: 100px auto;

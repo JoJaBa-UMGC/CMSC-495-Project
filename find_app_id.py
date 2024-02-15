@@ -60,6 +60,8 @@ class AppFinder:
 
         # Send a GET request to the API
         data = requests.get(url).json()
+        if 'items' not in data:
+            return
 
         # Loop through each item in the response
         for item in data['items']:
@@ -74,3 +76,8 @@ class AppFinder:
             # If both IDs have been found, break the loop
             if self.google_id and self.apple_id:
                 break
+
+    def no_id(self):
+        if self.apple_id.__len__() == 0 or self.google_id.__len__() == 0:
+            return True
+        return False
