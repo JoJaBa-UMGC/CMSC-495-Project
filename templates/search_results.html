@@ -67,6 +67,9 @@
                 <button class="tab-link" data-tab="Graphs">Graphs</button>
                 <button class="tab-link" data-tab="Save">Save</button>
             </div>
+            <form method="GET" action="/">
+                <button type="submit" class="logout-button">Home</button>
+            </form>
             <form method="GET" action="{{ url_for('logout') }}">
                 <button type="submit" class="logout-button">Logout</button>
             </form>
