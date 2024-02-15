@@ -52,7 +52,8 @@ def show_forum_report_page(app_name, search_period, sorting_option):
 
     app_search = AppFinder()
     app_search.find_app(app_name)
-
+    if app_search.no_id():
+        return render_template('landing.html', error=f"No app by the name {app_name} was found.")
     session['google_id'] = app_search.google_id
     session['apple_id'] = app_search.apple_id
     session['sorting_option'] = sorting_option
