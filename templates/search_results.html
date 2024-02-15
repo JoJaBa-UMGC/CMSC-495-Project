@@ -60,22 +60,29 @@
 </head>
 
 <body onload="openDefaultTab()">
-    <div class="tab">
-        <button class="tab-link" id="default-open" data-tab="Table">Table</button>
-        <button class="tab-link" data-tab="Graphs">Graphs</button>
-        <button class="tab-link" data-tab="Save">Save</button>
-    </div>
+    <div>
+        <div class="tab">
+            <div class="tab-buttons">
+                <button class="tab-link" id="default-open" data-tab="Table">Table</button>
+                <button class="tab-link" data-tab="Graphs">Graphs</button>
+                <button class="tab-link" data-tab="Save">Save</button>
+            </div>
+            <form method="GET" action="{{ url_for('logout') }}">
+                <button type="submit" class="logout-button">Logout</button>
+            </form>
+        </div>
 
-    <div id="Table" class="tab-content">
-        {% include 'review_table.html' %}
-    </div>
+        <div id="Table" class="tab-content">
+            {% include 'review_table.html' %}
+        </div>
 
-    <div id="Graphs" class="tab-content">
-        {% include 'review_graph.html' %}
-    </div>
+        <div id="Graphs" class="tab-content">
+            {% include 'review_graph.html' %}
+        </div>
 
-    <div id="Save" class="tab-content">
-        {% include 'review_csv.html' %}
+        <div id="Save" class="tab-content">
+            {% include 'review_csv.html' %}
+        </div>
     </div>
 </body>
 

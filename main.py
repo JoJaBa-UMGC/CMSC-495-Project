@@ -1,5 +1,8 @@
 import os
 
+import pyotp
+import login
+
 from flask import Flask, render_template, request, session
 
 import app_store_reviews
@@ -38,11 +41,16 @@ def reviews_to_html(reviews):
 
 @app.route('/', methods=['POST', 'GET'])
 def landing_page():
+    if not login.session.get('logged_in'):
+        print("not logged in")
+        return login.login()
     if request.method == 'POST':
         app_name = request.form.get('app_name')
         search_period = request.form.get('search_period', 'month')
         sorting_option = request.form.get('sorting_option', 'score')
         return show_forum_report_page(app_name, search_period, sorting_option)
+    if 'logged_in' not in session or not session['logged_in']:
+        return login.login
     return render_template('landing.html')
 
 
@@ -76,6 +84,12 @@ def google_csv():
 @app.route('/apple')
 def apple_csv():
     return csv_generator.generate_csv(appstore_reviews[0], "Apple")
+
+
+@app.route('/logout')
+def logout():
+    print('logging out')
+    return login.logout()
 
 
 if __name__ == '__main__':
