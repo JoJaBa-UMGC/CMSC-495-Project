@@ -49,25 +49,25 @@
         <li><a href="#tabs-Appstore">Appstore</a></li>
     </ul>
     <div id="tabs-GooglePlay">
-        {% if google_reviews is defined and google_reviews|length > 0 %}
+        {% if google_reviews is not none and google_reviews|length > 0 %}
         <div class="tableFixHead">
             {% for review in google_reviews %}
             {{ review|safe }}
             {% endfor %}
         </div>
         {% else %}
-        <p>There were no reviews in Play Store for the given period</p>
+        <p>There were no reviews in Play Store for the given period or filter</p>
         {% endif %}
     </div>
     <div id="tabs-Appstore">
-        {% if appstore_reviews is defined and appstore_reviews|length > 0 %}
+        {% if appstore_reviews is not none and appstore_reviews|length > 0 %}
         <div class="tableFixHead">
             {% for review in appstore_reviews %}
             {{ review|safe }}
             {% endfor %}
         </div>
         {% else %}
-        <p>There were no reviews in Appstore for the given period</p>
+        <p>There were no reviews in Appstore for the given period or filter</p>
         {% endif %}
     </div>
 </div>
