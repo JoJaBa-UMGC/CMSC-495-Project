@@ -50,7 +50,7 @@ def landing_page():
         sorting_option = request.form.get('sorting_option', 'score')
         return show_forum_report_page(app_name, search_period, sorting_option)
     if 'logged_in' not in session or not session['logged_in']:
-        return login.login
+        return login.login()
     return render_template('landing.html')
 
 

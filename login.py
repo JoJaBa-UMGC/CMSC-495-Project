@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, session
 import pyotp
 import qrcode
 import io
 from base64 import b64encode
 
-import main
+from qrcode.main import QRCode
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 app.secret_key = pyotp.random_base32()
@@ -12,7 +12,7 @@ app.secret_key = pyotp.random_base32()
 
 # Function to generate QR code
 def generate_qr_code(data):
-    qr = qrcode.QRCode(
+    qr = QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
         box_size=6,
