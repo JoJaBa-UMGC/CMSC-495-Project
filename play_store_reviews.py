@@ -4,7 +4,7 @@ from time import sleep
 import pandas
 import time
 
-
+# checks if review date is past a certain time
 def check_date(review, days):
     if days <= 0:
         return False
@@ -13,6 +13,17 @@ def check_date(review, days):
 
 
 def get_reviews(days, google_id):
+    """
+    Fetches reviews for a given app from the Google Play Store.
+
+    Parameters:
+    days (int): The number of days from today for which reviews are to be fetched.
+    App_id (str): The id of the app for which reviews are to be fetched.
+
+    Returns:
+    DataFrame: A pandas DataFrame containing the fetched reviews. The DataFrame has the following columns:
+               'Username', 'Date', 'Review Text', 'Score', 'Version'
+    """
     reviews_dict = {"Username": [],
                     "Date": [],
                     "Review Text": [],
@@ -45,7 +56,7 @@ def get_reviews(days, google_id):
 
     return df_app
 
-
+# Stops searching for reviews are date has been passed
 def reviews_date(app_id: str, sleep_milliseconds: int = 0, days: int = 0, **kwargs) -> list:
     kwargs.pop("count", None)
     kwargs.pop("continuation_token", None)
