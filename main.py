@@ -18,7 +18,7 @@ app.config['SESSION_TYPE'] = 'filesystem'
 
 search_periods = {'month': 30, 'two-months': 60, 'quarter': 91}
 
-runningLocal = False;
+runningLocal = False
 
 
 def get_reviews_for_platform(days, platform):
