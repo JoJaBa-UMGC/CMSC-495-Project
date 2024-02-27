@@ -21,6 +21,11 @@ search_periods = {'month': 30, 'two-months': 60, 'quarter': 91}
 runningLocal = False
 
 
+def get_app(config_filename):
+    app.config.from_pyfile(config_filename)
+    return app
+
+
 def get_reviews_for_platform(days, platform):
     """Fetch reviews for a given platform and return HTML or an empty list."""
     if platform == 'Google':
@@ -44,7 +49,6 @@ def reviews_to_html(reviews):
 @app.route('/', methods=['POST', 'GET'])
 def landing_page():
     if not login.session.get('logged_in'):
-        print("not logged in")
         if not runningLocal:
             return login.login()
     if request.method == 'POST':

@@ -6,4 +6,4 @@ qrcode~=7.4.2
 plotly~=5.18.0
 django-qrcode~=0.3
 python-dotenv~=1.0.1
-google-play-scraper~=1.2.6
+pytest~=8.0.2
