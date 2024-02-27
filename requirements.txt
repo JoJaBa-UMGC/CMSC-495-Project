@@ -1,4 +1,4 @@
-Flask~=2.2.3
+Flask~=2.2.3 
 requests~=2.31.0
 pandas~=1.5.3
 pyotp~=2.9.0
@@ -6,4 +6,4 @@ qrcode~=7.4.2
 plotly~=5.18.0
 django-qrcode~=0.3
 python-dotenv~=1.0.1
-pytest~=8.0.2
+google-play-scraper~=1.2.6
