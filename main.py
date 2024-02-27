@@ -1,12 +1,12 @@
 import os
 
-import pyotp
+import pandas
+
 import login
 
 from flask import Flask, render_template, request, session
 
 import app_store_reviews
-import filtering
 import play_store_reviews
 import graph_generator
 import csv_generator
@@ -19,6 +19,66 @@ app.config['SESSION_TYPE'] = 'filesystem'
 search_periods = {'month': 30, 'two-months': 60, 'quarter': 91}
 
 runningLocal = False
+
+sentimentWords = {
+    'positive': ["amazing", "awesome", "brilliant", "fantastic", "excellent", "fabulous", "wonderful", "perfect", "incredible",
+                 "exceptional", "positive", "delightful", "pleasing", "enjoyable", "spectacular", "magnificent", "marvelous",
+                 "outstanding", "superb", "great", "happy", "joyful", "lovely", "charming", "cheerful", "satisfying", "gratifying",
+                 "beautiful", "elegant", "exquisite", "gorgeous", "fine", "radiant", "splendid", "stunning", "admirable", "glorious",
+                 "pretty", "nice", "pleasant", "agreeable", "breathtaking", "heartwarming", "inspiring", "uplifting", "thrilling",
+                 "successful", "victorious", "profitable", "beneficial"],
+    'negative': ["awful", "terrible", "horrible", "dreadful", "poor", "bad", "worse", "worst", "unpleasant", "disappointing",
+                 "unsatisfactory", "lamentable", "deplorable", "atrocious", "appalling", "dismal", "depressing", "dire", "gloomy",
+                 "sad", "unhappy", "miserable", "sorrowful", "melancholy", "grief-stricken", "heartbroken", "anguished", "distressing",
+                 "painful", "tragic", "harmful", "damaging", "destructive", "injurious", "pernicious", "fatal", "deadly", "lethal",
+                 "noxious", "detrimental", "negative", "disadvantageous", "unfavorable", "adverse", "hateful", "hostile", "resentful",
+                 "bitter", "angry", "irate", "outraged"]
+}
+
+
+def sort_reviews(reviews, by):
+    """
+    Function to sort reviews based on different criteria.
+
+    Parameters:
+    reviews (DataFrame): The reviews dataframe.
+    by (str): The criteria to sort by. Can be 'Score', 'Review Text', 'No Text', 'Sentiment', or any other column name.
+
+    Returns:
+    DataFrame: The sorted reviews dataframe.
+    """
+    # Sort by score
+    if by == 'score':
+        return reviews.sort_values(by='Score', ascending=False)
+    # Sort by review text
+    elif by == 'text':
+        return reviews[reviews['Review Text'].notnull()].sort_values(by='Date', ascending=False)
+    # Sort by no text
+    elif by == 'no-text':
+        return reviews[reviews['Review Text'].isnull()].sort_values(by='Date', ascending=False)
+    # Sort by sentiment
+    elif by == 'positive' or by == 'negative' or by == 'neutral':
+        # Convert score to numeric
+        reviews['Score'] = pandas.to_numeric(reviews['Score'], errors='coerce')
+        # Filter by positive sentiment
+        if by == 'positive':
+            filtered_reviews = reviews[
+                (reviews['Review Text'].str.contains('|'.join(sentimentWords[by]), na=False)) &
+                (reviews['Score'] >= 4)
+                ]
+        # Filter by negative sentiment
+        elif by == 'negative':
+            filtered_reviews = reviews[
+                (reviews['Review Text'].str.contains('|'.join(sentimentWords[by]), na=False)) &
+                (reviews['Score'] <= 2)
+                ]
+        # Filter by neutral sentiment
+        else:
+            filtered_reviews = reviews[reviews['Score'] == 3]
+        return filtered_reviews.sort_values(by='Date', ascending=False)
+    # Default sort by date
+    else:
+        return reviews.sort_values(by='Date', ascending=False)
 
 
 def get_app(config_filename):
@@ -35,7 +95,7 @@ def get_reviews_for_platform(days, platform):
 
     graph = graph_generator.generate_graph(df_reviews, platform + " Reviews Scores")
 
-    df_reviews = filtering.sort_reviews(df_reviews, session.get('sorting_option'))
+    df_reviews = sort_reviews(df_reviews, session.get('sorting_option'))
 
     return df_reviews, graph
 
