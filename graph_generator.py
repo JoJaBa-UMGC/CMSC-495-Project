@@ -15,21 +15,17 @@ def generate_graph(reviews_dataframe, graph_title):
     - A JSON string representing the generated graph, or an empty JSON object if the input is None or empty.
     """
 
-    # Proceed if the DataFrame is valid but check if it's empty
     if reviews_dataframe.empty:
         return json.dumps({})
 
-    # Aggregate review scores and prepare the data for plotting
     scores_dataframe = (reviews_dataframe['Score']
                         .value_counts()
                         .reset_index(name='counts')
                         .rename(columns={'index': 'Review Score', 'counts': 'Score Total'})
                         .sort_values(by=['Review Score'], ascending=True))
 
-    # Generate the bar graph using Plotly Express
     graph = px.bar(scores_dataframe, x='Review Score', y='Score Total', barmode='group', title=graph_title)
 
-    # Convert the graph to JSON using Plotly's JSON encoder
     graph_json = json.dumps(graph, cls=putil.PlotlyJSONEncoder)
 
     return graph_json

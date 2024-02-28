@@ -82,12 +82,30 @@ def sort_reviews(reviews, by):
 
 
 def get_app(config_filename):
+    """
+        Load the app configuration from a file.
+
+        Parameters:
+        config_filename (str): The name of the configuration file.
+
+        Returns:
+        Flask: The configured Flask app.
+    """
     app.config.from_pyfile(config_filename)
     return app
 
 
 def get_reviews_for_platform(days, platform):
-    """Fetch reviews for a given platform and return HTML or an empty list."""
+    """
+    Fetch reviews for a given platform and return HTML or an empty list.
+
+    Parameters:
+    days (int): The number of days to fetch reviews for.
+    platform (str): The platform to fetch reviews from. Can be 'Google' or 'Apple'.
+
+    Returns:
+    DataFrame, str: The reviews dataframe and the graph as a JSON string.
+    """
     if platform == 'Google':
         df_reviews = play_store_reviews.get_reviews(days, session.get('google_id'))
     else:
@@ -101,6 +119,15 @@ def get_reviews_for_platform(days, platform):
 
 
 def reviews_to_html(reviews):
+    """
+        Convert a reviews dataframe to HTML.
+
+        Parameters:
+        reviews (DataFrame): The reviews dataframe.
+
+        Returns:
+        list: A list containing the HTML representation of the reviews dataframe.
+    """
     if reviews is not None and len(reviews) > 0:
         reviews.index = range(1, len(reviews) + 1)
         return [reviews.to_html(classes="data", header=True)]
@@ -108,6 +135,12 @@ def reviews_to_html(reviews):
 
 @app.route('/', methods=['POST', 'GET'])
 def landing_page():
+    """
+        The landing page route. Handles both GET and POST requests.
+
+        Returns:
+        str: The HTML to render.
+    """
     if not login.session.get('logged_in'):
         if not runningLocal:
             return login.login()
@@ -123,6 +156,17 @@ def landing_page():
 
 
 def show_forum_report_page(app_name, search_period, sorting_option):
+    """
+        Show the forum report page.
+
+        Parameters:
+        app_name (str): The name of the app to fetch reviews for.
+        search_period (str): The search period to fetch reviews for.
+        sorting_option (str): The option to sort the reviews by.
+
+        Returns:
+        str: The HTML to render.
+    """
     global google_reviews, appstore_reviews
     days = search_periods.get(search_period, 30)
 
@@ -146,16 +190,34 @@ def show_forum_report_page(app_name, search_period, sorting_option):
 
 @app.route('/google')
 def google_csv():
+    """
+        Generate a CSV file for Google reviews.
+
+        Returns:
+        str: The CSV file as a string.
+    """
     return csv_generator.generate_csv(google_reviews[0], "Google")
 
 
 @app.route('/apple')
 def apple_csv():
+    """
+        Generate a CSV file for Apple reviews.
+
+        Returns:
+        str: The CSV file as a string.
+    """
     return csv_generator.generate_csv(appstore_reviews[0], "Apple")
 
 
 @app.route('/logout')
 def logout():
+    """
+        Log out the user.
+
+        Returns:
+        str: The HTML to render.
+    """
     print('logging out')
     return login.logout()
 

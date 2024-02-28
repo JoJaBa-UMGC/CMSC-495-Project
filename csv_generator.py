@@ -17,13 +17,11 @@ def generate_csv(reviews_dataframe: dataframe, file_name: str):
     if reviews_dataframe.empty:
         return "DataFrame is empty, no file generated.", 400
 
-    # Append '_reviews.csv' to the provided file name
     full_file_name = f"{file_name}_reviews.csv"
 
-    # Use BytesIO as an in-memory buffer for the CSV file
     file_buffer = io.BytesIO()
-    reviews_dataframe.to_csv(file_buffer, index=False)  # Convert DataFrame to CSV, write to buffer
-    file_buffer.seek(0)  # Rewind the buffer to the beginning
+    reviews_dataframe.to_csv(file_buffer, index=False)
+    file_buffer.seek(0)
 
     print(f"{full_file_name} should have been generated!")
 

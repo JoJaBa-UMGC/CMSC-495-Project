@@ -54,30 +54,30 @@ class AppFinder:
         None
         """
 
-        # Construct the URL for the API request
         url = (f"https://www.googleapis.com/customsearch/v1?key={self.google_search_api_key}&cx={self.engine}&q=app "
                f"store {app_name}")
 
-        # Send a GET request to the API
         data = requests.get(url).json()
         if 'items' not in data:
             return
 
-        # Loop through each item in the response
         for item in data['items']:
-            # If the item is from the Apple App Store, extract the app ID
             if "apps.apple.com" in item['displayLink']:
                 self.apple_id = item['link'].split('/')[-1].split('id')[1]
 
-            # If the item is from Google Play, extract the app ID
             if "play.google.com" in item['displayLink']:
                 self.google_id = item['link'].split('/')[-1].split('id=')[1].split('&hl=')[0]
 
-            # If both IDs have been found, break the loop
             if self.google_id and self.apple_id:
                 break
 
     def no_id(self):
+        """
+            Checks if the Google Play and Apple App Store IDs are empty.
+
+            Returns:
+            bool: True if either ID is empty, False otherwise.
+        """
         if self.apple_id.__len__() == 0 or self.google_id.__len__() == 0:
             return True
         return False

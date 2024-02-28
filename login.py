@@ -10,8 +10,17 @@ app = Flask(__name__, template_folder='templates', static_folder='static')
 app.secret_key = pyotp.random_base32()
 
 
-# Function to generate QR code
 def generate_qr_code(data):
+    """
+        Function to generate a QR code from the provided data.
+
+        Parameters:
+        data (str): The data to be encoded into the QR code.
+
+        Returns:
+        str: The generated QR code as a base64 encoded string.
+    """
+
     qr = QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -29,7 +38,16 @@ def generate_qr_code(data):
 
 
 def login():
-    # Ensure that the TOTP secret is consistent for the session
+    """
+        Function to generate a QR code from the provided data.
+
+        Parameters:
+        data (str): The data to be encoded into the QR code.
+
+        Returns:
+        str: The generated QR code as a base64 encoded string.
+    """
+
     if 'totp_secret' not in session:
         session['totp_secret'] = pyotp.random_base32()
 
@@ -51,7 +69,13 @@ def login():
 
 
 def logout():
+    """
+        Function to handle user logout.
+
+        The user's login status is removed from the session and the user is redirected to the home page.
+
+        Returns:
+        str: The redirect response to the home page.
+    """
     session.pop('logged_in', None)
     return redirect('/')
-
-

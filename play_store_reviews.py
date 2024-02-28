@@ -4,8 +4,18 @@ from time import sleep
 import pandas
 import time
 
-# checks if review date is past a certain time
+
 def check_date(review, days):
+    """
+       Checks if a review is older than a certain number of days.
+
+       Parameters:
+       review (dict): The review to check.
+       days (int): The number of days to check against.
+
+       Returns:
+       bool: False if the review is newer than the number of days, True otherwise.
+    """
     if days <= 0:
         return False
     d = datetime.now() - review['at']
@@ -35,10 +45,10 @@ def get_reviews(days, google_id):
     app_reviews = reviews_date(
         days=days,
         app_id=google_id,
-        sleep_milliseconds=0,  # defaults to 0
-        lang='en',  # defaults to 'en'
-        country='nz',  # defaults to 'us'
-        sort=Sort.NEWEST,  # defaults to Sort.MOST_RELEVANT
+        sleep_milliseconds=0,
+        lang='en',
+        country='nz',
+        sort=Sort.NEWEST,
     )
     print("Retrieved google reviews in {} seconds".format(time.time() - start_time))
     print()
@@ -56,8 +66,20 @@ def get_reviews(days, google_id):
 
     return df_app
 
-# Stops searching for reviews are date has been passed
+
 def reviews_date(app_id: str, sleep_milliseconds: int = 0, days: int = 0, **kwargs) -> list:
+    """
+        Fetches reviews for a given app from the Google Play Store until a certain date.
+
+        Parameters:
+        app_id (str): The id of the app for which reviews are to be fetched.
+        sleep_milliseconds (int): The number of milliseconds to sleep between fetches. Defaults to 0.
+        days (int): The number of days from today until which reviews are to be fetched.
+        **kwargs: Additional keyword arguments to pass to the reviews function.
+
+        Returns:
+        list: A list of reviews fetched from the Google Play Store.
+    """
     kwargs.pop("count", None)
     kwargs.pop("continuation_token", None)
 
