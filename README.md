@@ -194,9 +194,9 @@ Joel Battle - joel.battle@pm.me
 
 [![LinkedIn][linkedin-shield]][joel-linked]
 
-Jordan Kozlowski - address@email.com
+Jordan Kozlowski - jordan.kozlowski@gmail.com
 
-[![LinkedIn][linkedin-shield]][linkedin-url]
+[![LinkedIn][linkedin-shield]][jordan-linked]
 
 Pasha Zobov - pavelzobov123@gmail.com
 
@@ -246,4 +246,5 @@ Project Link: [https://github.com/JoJaBa-UMGC/CMSC-495-Project](https://github.c
 [Plotly]: https://img.shields.io/badge/plotly-3F4F75?style=for-the-badge&logo=plotly&logoColor=white&link=https%3A%2F%2Fplotly.com%2F
 [Plotly-url]: https://plotly.com/
 [joel-linked]: https://www.linkedin.com/in/joel-battle-98982272/
+[jordan-linked]: https://www.linkedin.com/in/jordankozlowski/
 
