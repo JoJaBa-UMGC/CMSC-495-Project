@@ -50,8 +50,6 @@ def get_reviews(days, google_id):
         country='nz',
         sort=Sort.NEWEST,
     )
-    print("Retrieved google reviews in {} seconds".format(time.time() - start_time))
-    print()
 
     app_reviews = [review for review in app_reviews if not check_date(review, days)]
 

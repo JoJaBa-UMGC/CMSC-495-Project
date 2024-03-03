@@ -31,15 +31,17 @@ def get_reviews(days, app_id):
 
         data = response.json()
 
-        for review in data['feed']['entry']:
-            if review['updated']['label'].split('T')[0] >= (datetime.now() - timedelta(days=days)).strftime('%Y-%m-%d'):
-                reviews_dict['Username'].append(review['author']['name']['label'])
-                reviews_dict['Date'].append(review['updated']['label'].split('T')[0])
-                reviews_dict['Review Text'].append(review['content']['label'])
-                reviews_dict['Score'].append(review['im:rating']['label'])
-                reviews_dict['Version'].append(review['im:version']['label'])
-            else:
-                break
+        if 'feed' in data and 'entry' in data['feed']:
+            for review in data['feed']['entry']:
+                if review['updated']['label'].split('T')[0] >= (datetime.now() - timedelta(days=days)).strftime(
+                        '%Y-%m-%d'):
+                    reviews_dict['Username'].append(review['author']['name']['label'])
+                    reviews_dict['Date'].append(review['updated']['label'].split('T')[0])
+                    reviews_dict['Review Text'].append(review['content']['label'])
+                    reviews_dict['Score'].append(review['im:rating']['label'])
+                    reviews_dict['Version'].append(review['im:version']['label'])
+                else:
+                    break
 
         if page_num >= 10:
             break
