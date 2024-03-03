@@ -1,14 +1,13 @@
-
 <div class="graph-container">
-    <h1>Graph Test</h1>
+    <h1>Graphs</h1>
     <div id='google_graph' class='google_graph'></div>
     <div id='apple_graph' class='apple_graph'></div>
 </div>
 
 <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
 <script type='text/javascript'>
-  var google_graph = {{google_graph_json | safe}};
-  var apple_graph = {{apple_graph_json | safe}};
+  let google_graph = {{google_graph_json | safe}};
+  let apple_graph = {{apple_graph_json | safe}};
   Plotly.plot('google_graph',google_graph,{});
   Plotly.plot('apple_graph',apple_graph,{});
 </script>
